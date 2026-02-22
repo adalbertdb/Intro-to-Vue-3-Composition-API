@@ -1,5 +1,36 @@
+<script setup>
+import { reactive } from 'vue';
+
+const emit = defineEmits(['review-submitted'])
+
+const review = reactive({
+  name: '',
+  content: '',
+  rating: null
+})
+
+const onSubmit = () => {
+
+  if (review.name === '' || review.content ===''|| review.rating === null){
+    alert('Review is incomplete please fill out all fields')
+    return
+  }
+
+  const productReview = {
+    name: review.name,
+    content: review.content,
+    rating: review.rating,
+  }
+  emit('review-submitted', productReview)
+
+  review.name= ''
+  review.content= ''
+  review.rating= null
+}
+</script>
+
 <template>
-  <form class="review-form">
+  <form class="review-form" @submit.prevent="onSubmit">
     <h3>Leave a review</h3>
     <label for="name">Name:</label>
     <input id="name" v-model="review.name">
